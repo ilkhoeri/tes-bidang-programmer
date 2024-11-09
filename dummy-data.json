@@ -1,0 +1,10 @@
+[
+    { "id": 1, "name": "Meja" },
+    { "id": 2, "name": "Kursi" },
+	{ "id": 3, "name": "Pintu" },
+	{ "id": 4, "name": "Lemari" },
+	{ "id": 5, "name": "Dipan" },
+	{ "id": 6, "name": "Bed" },
+	{ "id": 7, "name": "Jendela" },
+	{ "id": 8, "name": "Televisi" }
+]

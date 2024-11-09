@@ -1,0 +1,19 @@
+import { db } from '@/shared/lib/db';
+import { auth } from '@/shared/lib/auth';
+
+export const getAccountByUserId = async (userId: string) => {
+  try {
+    const account = await db.account.findFirst({
+      where: { userId },
+    });
+    return account;
+  } catch {
+    return null;
+  }
+};
+
+export const currentUser = async () => {
+  const session = await auth();
+
+  return session?.user;
+};
