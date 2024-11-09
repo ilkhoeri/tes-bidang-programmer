@@ -154,7 +154,7 @@ export function DesktopNav({
   );
 }
 // 
-// buatkan tampilan pivot tabel secara dinamis untuk menampilkan data nilai sisea setiap tahun dari data berikut
+// 
 
 const route = [
   {
