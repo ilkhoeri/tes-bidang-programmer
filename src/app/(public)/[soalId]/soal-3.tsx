@@ -4,7 +4,7 @@ export function Field3() {
 
   return (
     <>
-      <TableMenuList />
+      <TableMenuOrder />
 
       <pre className="mt-8">data type</pre>
       <code className="rounded-lg p-4 bg-muted-foreground/50 font-mono text-wrap [white-space:break-spaces]">
@@ -22,7 +22,7 @@ export function Field3() {
 const dataType = `type MenuItem = {
   id: string;
   name: string;
-  type: {
+  category: {
     id: string;
     name: string;
     service: {
@@ -37,7 +37,7 @@ const dataType = `type MenuItem = {
 type MenuItem = {
   id: string;
   name: string;
-  type: {
+  category: {
     id: string;
     name: string;
     service: {
@@ -52,7 +52,7 @@ const menuData: MenuItem[] = [
   {
     id: '1',
     name: 'cake',
-    type: [
+    category: [
       {
         id: '1-1',
         name: 'Donnut',
@@ -82,7 +82,7 @@ const menuData: MenuItem[] = [
   {
     id: '2',
     name: 'bar',
-    type: [
+    category: [
       {
         id: '2-1',
         name: 'Bar',
@@ -106,49 +106,62 @@ const menuData: MenuItem[] = [
   },
 ];
 
-function TableMenuList() {
+function TableMenuOrder() {
   return (
     <table className="min-w-full border-collapse border border-gray-300">
       <thead>
         <tr>
+          <th className="border border-gray-300 px-4 py-2">Order</th>
           <th className="border border-gray-300 px-4 py-2">Category</th>
-          <th className="border border-gray-300 px-4 py-2">Type</th>
           <th className="border border-gray-300 px-4 py-2">Service</th>
           <th className="border border-gray-300 px-4 py-2">Flavor</th>
         </tr>
       </thead>
       <tbody>
-        {menuData.map((category) =>
-          category.type.map((type) =>
+        {menuData.map((order) => {
+          // Mengurutkan `type` berdasarkan nama
+          const sortedTypes = order.category.sort((a, b) =>
+            a.name.localeCompare(b.name),
+          );
+
+          return sortedTypes.map((type, typeIndex) =>
             type.service.map((service, serviceIndex) =>
               service.flavor.map((flavor, flavorIndex) => (
-                <tr
-                  key={`${category.id}-${type.id}-${service.id}-${flavor.id}`}
-                >
+                <tr key={`${order.id}-${type.id}-${service.id}-${flavor.id}`}>
                   {/* Menampilkan kolom kategori hanya pada baris pertama dari setiap kategori */}
+                  {typeIndex === 0 &&
+                    serviceIndex === 0 &&
+                    flavorIndex === 0 && (
+                      <td
+                        className="border border-gray-300 px-4 py-2"
+                        rowSpan={order.category.reduce(
+                          (count, t) =>
+                            count +
+                            t.service.reduce(
+                              (svcCount, svc) => svcCount + svc.flavor.length,
+                              0,
+                            ),
+                          0,
+                        )}
+                      >
+                        {order.name}
+                      </td>
+                    )}
+
+                  {/* Menampilkan kolom type hanya pada baris pertama dari setiap kelompok tipe yang sama */}
                   {serviceIndex === 0 && flavorIndex === 0 && (
                     <td
                       className="border border-gray-300 px-4 py-2"
                       rowSpan={type.service.reduce(
-                        (count, s) => count + s.flavor.length,
+                        (count, svc) => count + svc.flavor.length,
                         0,
                       )}
-                    >
-                      {category.name}
-                    </td>
-                  )}
-
-                  {/* Menampilkan kolom tipe hanya pada baris pertama dari setiap tipe */}
-                  {flavorIndex === 0 && (
-                    <td
-                      className="border border-gray-300 px-4 py-2"
-                      rowSpan={service.flavor.length}
                     >
                       {type.name}
                     </td>
                   )}
 
-                  {/* Kolom untuk service */}
+                  {/* Kolom untuk service, hanya ditampilkan pada baris pertama dari setiap service */}
                   {flavorIndex === 0 && (
                     <td
                       className="border border-gray-300 px-4 py-2"
@@ -165,8 +178,8 @@ function TableMenuList() {
                 </tr>
               )),
             ),
-          ),
-        )}
+          );
+        })}
       </tbody>
     </table>
   );

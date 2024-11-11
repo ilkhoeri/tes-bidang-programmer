@@ -5,22 +5,22 @@
 
 # tes-bidang-programmer
 
-first, install depedencies with command:
+first, install depedencies, run the command:
 
 ```
 pnpm install
 ```
 
-then, generate database model for initialization type:
+Rename `.env.example` to `.env`, then, generate prisma to initialize the database model, run the command:
 
 ```
 npx prisma generate
 ```
 
-then:
+and then, run the application with command:
 
 ```
 pnpm dev
 ```
 
-open in your browser `http://localhost:3000`
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
