@@ -58,7 +58,6 @@ function calculateAverage(scores: Record<number, number>): number {
   return values.length > 0 ? sum / values.length : 0;
 }
 
-
 export function Field4() {
   return (
     <div>
@@ -68,7 +67,7 @@ export function Field4() {
 
       <Tabs defaultValue="pivot">
         <div className="flex items-center">
-          <TabsList>
+          <TabsList className="first:[&_button]:rounded-l-sm first:[&_button]:rounded-r-none [&_button]:rounded-none last:[&_button]:rounded-r-sm [&_button]:border [&_button]:border-r-0 last:[&_button]:border-r">
             <TabsTrigger value="pivot">Pivot</TabsTrigger>
             <TabsTrigger value="all">All</TabsTrigger>
           </TabsList>

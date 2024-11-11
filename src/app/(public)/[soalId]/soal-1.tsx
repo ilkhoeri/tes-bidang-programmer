@@ -16,17 +16,20 @@ import {
 } from '@/client/components/ui/tabs';
 import { cn } from '@/shared/lib/utils';
 
-type GenerateNumbers = { angka: number; teks: 'true' | 'false' }[];
+type GenerateNumbers = {
+  angka: number;
+  teks: 'true' | 'false' | undefined;
+}[];
 
-const generateNumbers = () => {
-  let result = [];
+const generateNumbers = (): GenerateNumbers => {
+  let result: GenerateNumbers = [];
   for (let i = 1; i <= 200; i++) {
     if (i % 8 === 0) {
       result.push({ angka: i, teks: 'true' });
     } else if (i % 4 === 0 && i % 6 === 0) {
       result.push({ angka: i, teks: 'false' });
     } else {
-      result.push({ angka: i, teks: '' });
+      result.push({ angka: i, teks: undefined });
     }
   }
   return result;
@@ -39,19 +42,11 @@ export function Field1() {
     <div className="rounded-lg text-sm font-medium p-4 bg-muted font-mono">
       <Tabs defaultValue="all">
         <div className="flex items-center">
-          <TabsList className="first:[&_button]:rounded-l-sm first:[&_button]:rounded-r-none [&_button]:rounded-none last:[&_button]:rounded-r-sm [&_button:where(:not(:first-child)):where(:not(:last-child))]:border-x-0">
-            <TabsTrigger value="all" className="border">
-              All
-            </TabsTrigger>
-            <TabsTrigger value="true" className="border">
-              Habis dibagi 8
-            </TabsTrigger>
-            <TabsTrigger value="false" className="border">
-              Habis dibagi 4 & 6
-            </TabsTrigger>
-            <TabsTrigger value="noconditions" className="border">
-              Tidak ada kondisi
-            </TabsTrigger>
+          <TabsList className="first:[&_button]:rounded-l-sm first:[&_button]:rounded-r-none [&_button]:rounded-none last:[&_button]:rounded-r-sm [&_button]:border [&_button]:border-r-0 last:[&_button]:border-r">
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="true">Habis dibagi 8</TabsTrigger>
+            <TabsTrigger value="false">Habis dibagi 4 & 6</TabsTrigger>
+            <TabsTrigger value="noconditions">Tidak ada kondisi</TabsTrigger>
           </TabsList>
         </div>
 
@@ -80,9 +75,8 @@ export function Field1() {
 
         <TabsContent value="noconditions">
           <TableSection
-            data={angkaList}
+            data={angkaList.filter((i) => !i.teks)}
             caption="Angka Berulang 1 - 200 yang tidak habis dibagi (4 dan 6), dan 8."
-            filterType=""
           />
         </TabsContent>
       </Tabs>
@@ -93,7 +87,7 @@ export function Field1() {
 interface TableSectionProps {
   data: GenerateNumbers;
   caption: string;
-  filterType?: 'true' | 'false' | '';
+  filterType?: 'true' | 'false';
 }
 
 function TableSection({ data, caption, filterType }: TableSectionProps) {
@@ -123,7 +117,7 @@ function TableSection({ data, caption, filterType }: TableSectionProps) {
           >
             <TableCell>{item.angka}</TableCell>
             <TableCell className={cn({ italic: item.teks })}>
-              {item.teks || 'Tidak ada kondisi'}
+              {item.teks || 'undefined'}
             </TableCell>
           </TableRow>
         ))}

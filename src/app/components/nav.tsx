@@ -123,10 +123,12 @@ export function DesktopNav({
               href={i.href}
               label={i.title}
             >
-              <div className="flex flex-row items-start">
-                <i.icon className="size-5 min-h-5 min-w-5" />
-                {i.label && <span className="-ml-1 font-bold">{i.label}</span>}
-              </div>
+              <i.icon className="size-5 min-h-5 min-w-5" />
+              {i.label && (
+                <span className="font-medium font-mono absolute left-8 -mb-1.5">
+                  {i.label}
+                </span>
+              )}
             </NavItem>
           ))}
         </nav>
