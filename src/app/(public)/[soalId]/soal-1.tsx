@@ -8,78 +8,135 @@ import {
   TableHeader,
   TableRow,
 } from '@/client/components/ui/table';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/client/components/ui/tabs';
 import { cn } from '@/shared/lib/utils';
 
-export function Field1() {
-  type GenerateNumbers = { angka: number; teks: 'true' | 'false' }[];
+type GenerateNumbers = { angka: number; teks: 'true' | 'false' }[];
 
-  const generateNumbers = () => {
-    let result = [];
-    for (let i = 1; i <= 200; i++) {
-      if (i % 8 === 0) {
-        result.push({ angka: i, teks: 'true' });
-      } else if (i % 4 === 0 && i % 6 === 0) {
-        result.push({ angka: i, teks: 'false' });
-      } else {
-        result.push({ angka: i, teks: '' });
-      }
+const generateNumbers = () => {
+  let result = [];
+  for (let i = 1; i <= 200; i++) {
+    if (i % 8 === 0) {
+      result.push({ angka: i, teks: 'true' });
+    } else if (i % 4 === 0 && i % 6 === 0) {
+      result.push({ angka: i, teks: 'false' });
+    } else {
+      result.push({ angka: i, teks: '' });
     }
-    return result;
-  };
+  }
+  return result;
+};
 
-  const angkaList: GenerateNumbers = generateNumbers();
+const angkaList: GenerateNumbers = generateNumbers();
+
+export function Field1() {
+  return (
+    <div className="rounded-lg text-sm font-medium p-4 bg-muted font-mono">
+      <Tabs defaultValue="all">
+        <div className="flex items-center">
+          <TabsList className="first:[&_button]:rounded-l-sm first:[&_button]:rounded-r-none [&_button]:rounded-none last:[&_button]:rounded-r-sm [&_button:where(:not(:first-child)):where(:not(:last-child))]:border-x-0">
+            <TabsTrigger value="all" className="border">
+              All
+            </TabsTrigger>
+            <TabsTrigger value="true" className="border">
+              Habis dibagi 8
+            </TabsTrigger>
+            <TabsTrigger value="false" className="border">
+              Habis dibagi 4 & 6
+            </TabsTrigger>
+            <TabsTrigger value="noconditions" className="border">
+              Tidak ada kondisi
+            </TabsTrigger>
+          </TabsList>
+        </div>
+
+        <TabsContent value="all">
+          <TableSection
+            data={angkaList}
+            caption="Angka Berulang dari 1 - 200."
+          />
+        </TabsContent>
+
+        <TabsContent value="true">
+          <TableSection
+            data={angkaList}
+            caption="Angka Berulang dari 1 - 200 yang habis dibagi 8."
+            filterType="true"
+          />
+        </TabsContent>
+
+        <TabsContent value="false">
+          <TableSection
+            data={angkaList}
+            caption="Angka Berulang dari 1 - 200 yang habis dibagi 4 dan 6."
+            filterType="false"
+          />
+        </TabsContent>
+
+        <TabsContent value="noconditions">
+          <TableSection
+            data={angkaList}
+            caption="Angka Berulang 1 - 200 yang tidak habis dibagi (4 dan 6), dan 8."
+            filterType=""
+          />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+interface TableSectionProps {
+  data: GenerateNumbers;
+  caption: string;
+  filterType?: 'true' | 'false' | '';
+}
+
+function TableSection({ data, caption, filterType }: TableSectionProps) {
+  const filteredData = filterType
+    ? data.filter((item) => item.teks === filterType)
+    : data;
 
   return (
-    <>
-      <div className="rounded-lg text-sm font-medium p-4 bg-muted font-mono">
-        <Table className="w-full max-w-[500px]">
-          <TableCaption>Angka Berulang dari 1 - 200.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Numbers</TableHead>
-              <TableHead>Result</TableHead>
-            </TableRow>
-          </TableHeader>
+    <Table className="w-full max-w-[500px]">
+      <TableCaption>{caption}</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Numbers</TableHead>
+          <TableHead>Result</TableHead>
+        </TableRow>
+      </TableHeader>
 
-          <TableBody>
-            {angkaList.map((item, index) => (
-              <TableRow
-                key={index}
-                className={cn(
-                  item.teks === 'true' && 'bg-sky-200 hover:bg-sky-300/50',
-                  item.teks === 'false' && 'bg-red-200 hover:bg-red-300/50',
-                  !item.teks && 'opacity-50',
-                )}
-              >
-                <TableCell>{item.angka}</TableCell>
-                <TableCell
-                  className={cn({
-                    italic: item.teks,
-                  })}
-                >
-                  {item.teks || 'Tidak ada kondisi'}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+      <TableBody>
+        {filteredData.map((item, index) => (
+          <TableRow
+            key={index}
+            className={cn(
+              item.teks === 'true' && 'bg-sky-200 hover:bg-sky-300/50',
+              item.teks === 'false' && 'bg-red-200 hover:bg-red-300/50',
+              !item.teks && 'opacity-50',
+            )}
+          >
+            <TableCell>{item.angka}</TableCell>
+            <TableCell className={cn({ italic: item.teks })}>
+              {item.teks || 'Tidak ada kondisi'}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
 
-          <TableFooter>
-            <TableRow>
-              <TableCell>Total</TableCell>
-              <TableCell>
-                <div className="w-full gap-1 flex flex-col italic">
-                  <span className="bg-sky-200 hover:bg-sky-300/50 rounded-sm text-center">
-                    true: {angkaList.filter((i) => i.teks === 'true').length}
-                  </span>
-                  <span className="bg-red-200 hover:bg-red-300/50 rounded-sm text-center">
-                    false: {angkaList.filter((i) => i.teks === 'false').length}
-                  </span>
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </div>
-    </>
+      <TableFooter>
+        <TableRow>
+          <TableCell>Total</TableCell>
+          <TableCell className="text-center italic">
+            {filteredData.length}
+          </TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
   );
 }

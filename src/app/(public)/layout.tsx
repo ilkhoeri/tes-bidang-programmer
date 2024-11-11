@@ -21,7 +21,7 @@ export default async function DashboardLayout({
             <User />
           </header>
 
-          <div className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 bg-muted/40">
+          <div className="grid flex-1 items-start gap-2 pl-14 pr-4 sm:pr-8 md:pr-10 lg:pr-14 py-4 sm:py-0 md:gap-4 bg-muted/40">
             {children}
           </div>
         </div>
