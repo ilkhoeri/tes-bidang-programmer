@@ -1,16 +1,16 @@
-
-
-export async function Field2({ field }: { field: "a" | "b" | "c"}){
-    const data = await (await fetch('https://pastebin.com/raw/0zG5AQzL'))
-    return (
-        <div className="rounded-lg p-4 bg-muted font-mono text-wrap [white-space:pre-line]">
-            {String(data)}
-        </div>
-    )
+export async function Field2({ field }: { field: 'a' | 'b' | 'c' }) {
+  const data = await await fetch('https://pastebin.com/raw/0zG5AQzL');
+  return (
+    <div className="rounded-lg p-4 bg-muted-foreground/60 font-mono text-wrap text-sm [white-space:break-spaces]">
+      {field === 'a' && String(TwoA)}
+      {field === 'b' && String(TwoB)}
+      {field === 'c' && String(TwoC)}
+    </div>
+  );
 }
 
 // 2a
-import { Injectable } from '@nestjs/common';
+const TwoA = `import { Injectable } from '@nestjs/common';
 
 interface Item {
   id: number;
@@ -60,9 +60,9 @@ export class ItemsService {
     return result;
   }
 }
-
+`;
 // soal 2b
-import { Controller, Get, Query } from '@nestjs/common';
+const TwoB = `import { Controller, Get, Query } from '@nestjs/common';
 
 @Controller('items')
 export class ItemsController {
@@ -73,13 +73,14 @@ export class ItemsController {
     // Memanggil method untuk memproses parameter array
     return this.itemsService.processItems(names);
   }
-}
+}`;
 
 // soal 2c
-import { Module } from '@nestjs/common';
+const TwoC = `import { Module } from '@nestjs/common';
 
 @Module({
   controllers: [ItemsController],
   providers: [ItemsService],
 })
 export class ItemsModule {}
+`;

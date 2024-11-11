@@ -6,52 +6,23 @@ import { Field5 } from './soal-5';
 import { Field6 } from './soal-6';
 import { Field7 } from './soal-7';
 
+const fieldMapping: Record<string, JSX.Element> = {
+  soalno1: <Field1 />,
+  soalno2a: <Field2 field="a" />,
+  soalno2b: <Field2 field="b" />,
+  soalno2c: <Field2 field="c" />,
+  soalno3: <Field3 />,
+  soalno4: <Field4 />,
+  soalno5: <Field5 />,
+  soalno6: <Field6 />,
+  soalno7: <Field7 />,
+};
+
 export default async function soalIdPage({
   params,
 }: {
   params: Promise<{ soalId: string }>;
 }) {
   const soalId = (await params).soalId;
-
-  // page soal no 1
-  if (soalId === "soalno1") {
-    return <Field1 />
-  }
-  // page soal no 2a
-  if (soalId === "soalno2a") {
-    return <Field2 field="a" />
-  }
-  // page soal no 2b
-  if (soalId === "soalno2b") {
-    return <Field2 field="b" />
-  }
-  // page soal no 2c
-  if (soalId === "soalno2c") {
-    return <Field2 field="c" />
-  }
-  // page soal no 3
-  if (soalId === "soalno3") {
-    return <Field3 />
-  }
-  // page soal no 4
-  if (soalId === "soalno4") {
-    return <Field4 />
-  }
-  // page soal no 5
-  if (soalId === "soalno5") {
-    return <Field5 />
-  }
-  // page soal no 6
-  if (soalId === "soalno6a") {
-    return <Field6 field="a" />
-  }
-  // page soal no 6
-  if (soalId === "soalno6b") {
-    return <Field6 field="b" />
-  }
-  // page soal no 7
-  if (soalId === "soalno7") {
-    return <Field7 />
-  }
-
+  return fieldMapping[soalId] || <p>Soal tidak ditemukan</p>;
 }

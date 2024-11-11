@@ -16,7 +16,7 @@ import {
   IconNumber4,
   IconNumber5,
   IconNumber6,
-  IconNumber7
+  IconNumber7,
 } from '@tabler/icons-react';
 import {
   Tooltip,
@@ -117,14 +117,18 @@ export function DesktopNav({
           </NavItem>
 
           {route.map((i, index) => (
-            <NavItem key={index} stretch={stretch} href={i.href} label={i.title}>
-              <div className='flex flex-row items-start'>
+            <NavItem
+              key={index}
+              stretch={stretch}
+              href={i.href}
+              label={i.title}
+            >
+              <div className="flex flex-row items-start">
                 <i.icon className="size-5 min-h-5 min-w-5" />
-                {i.label && <span className='-ml-1 font-bold'>{i.label}</span>}
+                {i.label && <span className="-ml-1 font-bold">{i.label}</span>}
               </div>
             </NavItem>
           ))}
-
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <Tooltip>
@@ -153,55 +157,55 @@ export function DesktopNav({
     </>
   );
 }
-// 
-// 
+//
+//
 
 const route = [
   {
-    title: "Soal 1",
+    title: 'Soal 1',
     href: '/soalno1',
     icon: IconNumber1,
   },
   {
     label: 'a',
-    title: "Soal 2a",
+    title: 'Soal 2a',
     href: '/soalno2a',
     icon: IconNumber2,
   },
   {
     label: 'b',
-    title: "Soal 2b",
+    title: 'Soal 2b',
     href: '/soalno2b',
     icon: IconNumber2,
   },
   {
     label: 'c',
-    title: "Soal 2c",
+    title: 'Soal 2c',
     href: '/soalno2c',
     icon: IconNumber2,
   },
   {
-    title: "Soal 3",
+    title: 'Soal 3',
     href: '/soalno3',
     icon: IconNumber3,
   },
   {
-    title: "Soal 4",
+    title: 'Soal 4',
     href: '/soalno4',
     icon: IconNumber4,
   },
   {
-    title: "Soal 5",
+    title: 'Soal 5',
     href: '/soalno5',
     icon: IconNumber5,
   },
   {
-    title: "Soal 6",
+    title: 'Soal 6',
     href: '/soalno6',
     icon: IconNumber6,
   },
   {
-    title: "Soal 7",
+    title: 'Soal 7',
     href: '/soalno7',
     icon: IconNumber7,
   },
